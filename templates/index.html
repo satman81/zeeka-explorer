@@ -12,6 +12,7 @@
     <h1>Blocks</h1>
     {% for b in blocks %}
       <h2>Block #{{ b.header.number }}</h2>
+      <p><b>Timestamp:</b> {{ b.header.proof_of_work.timestamp }}</p>
       <p><b>Root:</b> {{ b.header.block_root }}</p>
       <p><b>Power:</b> {{ b.header.proof_of_work.target }}</p>
       <p><b>Num txs:</b> {{ b.body | length }}</p>
