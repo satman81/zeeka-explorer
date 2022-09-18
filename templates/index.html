@@ -5,6 +5,13 @@
     <title>Zeeka Explorer</title>
   </head>
   <body>
+    <h1>MPN Accounts</h1>
+    {% for ind,acc in mpn %}
+      <h2>Account #{{ ind }}</h2>
+      <p><b>Address:</b> {{ acc.address }}</p>
+      <p><b>Nonce:</b> {{ acc.nonce }}</p>
+      <p><b>Balance:</b> {{ acc.balance }}</p>
+    {% endfor %}
     <h1>Miners</h1>
     {% for m,amt in miners.items %}
       <p><b>{{m}}:</b> {{amt}}</p>

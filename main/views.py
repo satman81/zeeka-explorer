@@ -26,8 +26,17 @@ def get_balance(acc):
         timeout=2,
     ).json()['balance']
 
+
+def get_mpn_accounts():
+    return sorted([(int(k), v) for (k,v) in requests.get(
+        "http://{}/explorer/mpn/accounts?page=0&page_size=10000".format(NODE),
+        headers={"X-ZEEKA-NETWORK-NAME": "debug"},
+        timeout=2,
+    ).json()['accounts'].items()])
+
+
 def index(request):
-    blocks = get_blocks(0, 10000)
+    blocks = get_blocks(0, 1)
     miners = {}
     for b in blocks:
         if 'RegularSend' in b['body'][0]['data']:
@@ -36,4 +45,4 @@ def index(request):
                 miners[r['dst']]=0
             miners[r['dst']]+=r['amount']
     miners = {k: v/1000000000 for k, v in sorted(miners.items(), key=lambda item: -item[1])}
-    return render(request, 'index.html', {'blocks': blocks[-10:], 'miners':miners})
+    return render(request, 'index.html', {'blocks': blocks[-10:], 'miners':miners, 'mpn': get_mpn_accounts()})
