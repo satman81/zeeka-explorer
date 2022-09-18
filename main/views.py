@@ -36,7 +36,7 @@ def get_mpn_accounts():
 
 
 def index(request):
-    blocks = get_blocks(0, 1)
+    blocks = get_blocks(0, 10000)
     miners = {}
     for b in blocks:
         if 'RegularSend' in b['body'][0]['data']:
