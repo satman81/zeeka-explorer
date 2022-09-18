@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 import requests
 
-NODE = "152.228.155.120:8765"
+NODE = "127.0.0.1:8765"
 
 
 def get_blocks(since, max_len=16):
@@ -27,7 +27,7 @@ def get_balance(acc):
     ).json()['balance']
 
 def index(request):
-    blocks = get_blocks(0, 1000)
+    blocks = get_blocks(0, 10000)
     miners = {}
     for b in blocks:
         if 'RegularSend' in b['body'][0]['data']:
@@ -36,4 +36,4 @@ def index(request):
                 miners[r['dst']]=0
             miners[r['dst']]+=r['amount']
     miners = {k: v/1000000000 for k, v in sorted(miners.items(), key=lambda item: -item[1])}
-    return render(request, 'index.html', {'blocks': blocks, 'miners':miners})
+    return render(request, 'index.html', {'blocks': blocks[-10:], 'miners':miners})
